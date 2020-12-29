@@ -15,8 +15,10 @@ module BigQuery
     def initialize(opts = {})
       @client = Google::APIClient.new(
         :application_name => 'BigQuery ruby app',
-        :application_version => BigQuery::VERSION
+        :application_version => BigQuery::VERSION,
       )
+      @client.user_agent = @client.user_agent.gsub("\n", "")
+
 
       key = Google::APIClient::PKCS12.load_key(File.open(opts['key'], 'rb'),
         "notasecret"
