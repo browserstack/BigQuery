@@ -58,17 +58,7 @@ module BigQuery
           auth = Google::Auth::ServiceAccountCredentials.make_creds(json_key_io: key, scope: scope)
         end
       else
-        begin
-          key = Google::APIClient::KeyUtils.load_from_pkcs12(opts['key'], 'notasecret')
-        rescue ArgumentError
-          key = Google::APIClient::KeyUtils.load_from_pem(opts['key'], 'notasecret')
-        end
-        auth = Signet::OAuth2::Client.new(
-            token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
-            audience: 'https://accounts.google.com/o/oauth2/token',
-            scope: scope,
-            issuer: opts['service_email'],
-            signing_key: key)
+        raise ArgumentError, "Service account JSON key is required for authentication. Please provide 'json_key' in options."
       end
 
       @client.authorization = auth
