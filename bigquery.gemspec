@@ -25,6 +25,10 @@ Gem::Specification.new do |s|
   # Modern Google Auth (compatible with Faraday 2.x)
   s.add_dependency "googleauth", ">= 1.3"
 
+  # NEW
+  s.add_dependency "retriable", ">= 2.0", "< 4.0"
+
+
   # --- DEV DEPS ---
   s.add_development_dependency "bundler"
   s.add_development_dependency "rake"
