@@ -16,7 +16,7 @@ module BigQuery
     include BigQuery::Client::Jobs
     include BigQuery::Client::Tables
     include BigQuery::Client::Datasets
-    include BigQuery::Client::Load
+    include BigQuery::Client::Insert
     include BigQuery::Client::Hashable
     include BigQuery::Client::Options
     include BigQuery::Client::Response
