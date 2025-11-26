@@ -1,6 +1,3 @@
-# Modern upload support
-require 'faraday'
-UploadIO = Faraday::UploadIO
 # https://cloud.google.com/bigquery/docs/reference/v2/jobs
 
 module BigQuery
@@ -52,7 +49,7 @@ module BigQuery
       #
       # @param options [Hash] hash of job options
       # @param parameters [Hash] hash of parameters (uploadType, etc.)
-      # @param media [UploadIO] media upload
+      # @param media [IO, File] media upload
       # @return [Hash] json api response
       def insert_job(opts, parameters = {}, media = nil)
         _opts = deep_symbolize_keys(opts)
