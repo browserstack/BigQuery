@@ -14,18 +14,12 @@ Gem::Specification.new do |s|
   s.files           = `git ls-files`.split("\n")
   s.test_files      = `git ls-files -- {test,spec,features}/*`.split("\n")
 
-  # --- ❌ REMOVE OLD / DEPRECATED DEPENDENCIES ---
-  # s.add_dependency "google-api-client", "~> 0.9.3"
-  # s.add_dependency "googleauth", "~> 0.5.0"
 
-  # --- ✅ ADD MODERN GOOGLE API CLIENT LIBRARIES ---
-  # BigQuery V2 API client
+  # --- Modern Google API Client Libraries ---
   s.add_dependency "google-apis-bigquery_v2", ">= 0.53"
-
-  # Modern Google Auth (compatible with Faraday 2.x)
   s.add_dependency "googleauth", ">= 1.3"
-
-  # NEW
+  s.add_dependency "faraday", ">= 2.0", "< 3.0"
+  s.add_dependency "amplitude-api", ">= 0.4.0"
   s.add_dependency "retriable", ">= 2.0", "< 4.0"
 
 
