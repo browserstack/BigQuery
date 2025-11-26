@@ -1,3 +1,6 @@
+# Modern upload support
+require 'faraday'
+UploadIO = Faraday::UploadIO
 # https://cloud.google.com/bigquery/docs/reference/v2/jobs
 
 module BigQuery

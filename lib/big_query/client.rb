@@ -16,7 +16,7 @@ module BigQuery
     include BigQuery::Client::Jobs
     include BigQuery::Client::Tables
     include BigQuery::Client::Datasets
-    include BigQuery::Client::Insert
+    include BigQuery::Client::Load
     include BigQuery::Client::Hashable
     include BigQuery::Client::Options
     include BigQuery::Client::Response
@@ -47,23 +47,23 @@ module BigQuery
         @client.request_options.open_timeout_sec = opts['request_option']['open_timeout_sec']
       end
 
-      scope = 'https://www.googleapis.com/auth/bigquery'
-      if opts['json_key'].is_a?(String) && !opts['json_key'].empty?
-        if File.exist?(opts['json_key'])
-          auth = File.open(opts['json_key']) do |f|
-            Google::Auth::ServiceAccountCredentials.make_creds(json_key_io: f, scope: scope)
-          end
-        else
-          key = StringIO.new(opts['json_key'])
-          auth = Google::Auth::ServiceAccountCredentials.make_creds(json_key_io: key, scope: scope)
-        end
-      else
+      scopes = ["https://www.googleapis.com/auth/bigquery"]
+      unless opts['json_key']
         raise ArgumentError, "Service account JSON key is required for authentication. Please provide 'json_key' in options."
       end
-
+      if opts['json_key'].is_a?(String) && File.exist?(opts['json_key'])
+        auth = Google::Auth::ServiceAccountCredentials.make_creds(
+          json_key_io: File.open(opts['json_key']),
+          scope: scopes
+        )
+      else
+        auth = Google::Auth::ServiceAccountCredentials.make_creds(
+          json_key: opts['json_key'],
+          scope: scopes
+        )
+      end
+      auth.fetch_access_token!
       @client.authorization = auth
-
-      refresh_auth
 
       @project_id = opts['project_id']
       @dataset = opts['dataset']
