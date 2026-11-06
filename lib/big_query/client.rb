@@ -22,6 +22,9 @@ module BigQuery
         application_version: BigQuery::VERSION,
         faraday_option: opts['faraday_option']
       )
+      # google-api-client 0.8.6 builds the User-Agent from `uname -sr`, which ends in "\n".
+      # net/http (Ruby 2.6+) rejects CR/LF in header values, so strip it (same fix as 51dd6e0).
+      @client.user_agent = @client.user_agent.gsub("\n", "")
 
       begin
         key = Google::APIClient::KeyUtils.load_from_pkcs12(opts['key'], 'notasecret')
